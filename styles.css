@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 400px;
+    width: 25%;
+}
+
+.display {
+    border: 1px solid #000000;
+    width: 100%;
+    text-align: right;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.numbers {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.numbers button {
+    flex: 0 0 33%;
+}
+
+.operations {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
