@@ -10,6 +10,7 @@ body {
     align-items: center;
     min-width: 400px;
     width: 25%;
+    min-height: 200px;
 }
 
 .display {
