@@ -5,15 +5,27 @@ const display = document.querySelector(".display");
 const message = document.querySelector(".message");
 
 function add(num1, num2) {
-    return num1 + num2;
+    const solution = num1 + num2;
+    if (solution % 1 === 0) {
+        return solution;
+    }
+    return solution.toFixed(2);
 }
 
 function subtract(num1, num2) {
-    return num1 - num2;
+    const solution = num1 - num2;
+    if (solution % 1 === 0) {
+        return solution;
+    }
+    return solution.toFixed(2);
 }
 
 function multiply(num1, num2) {
-    return num1 * num2;
+    const solution = num1 * num2;
+    if (solution % 1 === 0) {
+        return solution;
+    }
+    return solution.toFixed(2);
 }
 
 function divide(num1, num2) {
@@ -56,9 +68,15 @@ digitButtons.forEach(element => {
     element.addEventListener("click", (e) => {
         message.textContent = "";
         if (operator) {
-            number2 += e.target.textContent;
+            if (e.target.textContent !== "." || (e.target.textContent === "." && !number2.includes("."))) {
+                !number2 && e.target.textContent === "." ? number2 = "0.": number2 += e.target.textContent;
+            }
         } else {
-            number1 === "0" ? number1 = e.target.textContent : number1 += e.target.textContent;
+            if (e.target.textContent !== ".") {
+                number1 === "0" ? number1 = e.target.textContent : number1 += e.target.textContent;
+            } else if (e.target.textContent === "." && !number1.includes(".")) {
+                number1 += e.target.textContent;
+            }
         }
         display.textContent = `${number1} ${operator} ${number2}`;
     })
