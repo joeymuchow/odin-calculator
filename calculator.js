@@ -63,23 +63,40 @@ function operate(operator, num1, num2) {
     return result;
 }
 
-const digitButtons = document.querySelectorAll(".numbers button");
+function updateDisplay() {
+    if (number1 && operator && number2) {
+        display.textContent = `${number1} ${operator} ${number2}`;
+    } else if (number1 && operator) {
+        display.textContent = `${number1} ${operator}`;
+    } else {
+        display.textContent = number1;
+    }
+}
+
+const digitButtons = document.querySelectorAll(".number");
 digitButtons.forEach(element => {
     element.addEventListener("click", (e) => {
         message.textContent = "";
         if (operator) {
-            if (e.target.textContent !== "." || (e.target.textContent === "." && !number2.includes("."))) {
-                !number2 && e.target.textContent === "." ? number2 = "0.": number2 += e.target.textContent;
-            }
+            number2 += e.target.textContent;
         } else {
-            if (e.target.textContent !== ".") {
-                number1 === "0" ? number1 = e.target.textContent : number1 += e.target.textContent;
-            } else if (e.target.textContent === "." && !number1.includes(".")) {
-                number1 += e.target.textContent;
-            }
+            number1 === "0" ? number1 = e.target.textContent : number1 += e.target.textContent;
         }
-        display.textContent = `${number1} ${operator} ${number2}`;
+        updateDisplay();
     })
+});
+
+document.querySelector(".decimal").addEventListener("click", (e) => {
+    if (operator) {
+        if (!number2.includes(".")) {
+            !number2 ? number2 = "0." : number2 += e.target.textContent;
+        }
+    } else {
+        if (!number1.includes(".")) {
+            number1 += e.target.textContent;
+        }
+    }
+    updateDisplay();
 });
 
 const operators = document.querySelectorAll(".operators");
@@ -93,7 +110,7 @@ operators.forEach(element => {
         } else if (number1) {
             operator = e.target.textContent;
         }
-        display.textContent = `${number1} ${operator} ${number2}`;
+        updateDisplay();
     });
 });
 
@@ -110,4 +127,41 @@ document.querySelector(".clear").addEventListener("click", () => {
     operator = "";
     number1 = "0";
     number2 = "";
+});
+
+document.querySelector(".backspace").addEventListener("click", (e) => {
+    const displayValue = display.textContent;
+    const displayArray = displayValue.split(" ");
+    if (displayArray.length === 3) {
+        // number1, operator, and number2 have values
+        number1 = displayArray[0];
+        operator = displayArray[1];
+        const splitNum = displayArray[2].split("");
+        // remove last digit
+        splitNum.pop();
+        number2 = splitNum.join("");
+    } else if (displayArray.length === 2) {
+        // number1 and operator have values
+        // number2 is empty
+        number1 = displayArray[0];
+        //remove operator by emptying variable
+        operator = "";
+        number2 = "";
+    } else if (displayArray.length === 1) {
+        // number 1 has a value
+        // operator and number2 are empty
+        const splitNum = displayArray[0].split("");
+        // remove last digit
+        splitNum.pop();
+        // setting a "0" when number1 is empty for initial state
+        number1 = splitNum.join("") || "0";
+        operator = "";
+        number2 = "";
+    } else {
+        // everything is back to initial state
+        number1 = "0";
+        operator = "";
+        number2 = "";
+    }
+    updateDisplay();
 });
